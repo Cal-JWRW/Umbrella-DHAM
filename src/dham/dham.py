@@ -23,6 +23,7 @@ from generate_mm import gen_mm
 from mm2pmf import mm2pmf
 from extensions.autocut.autocut import autocut
 from extensions.autodis.autodis import autodis
+from extensions.autolag.autolag import autolag
 
 R = 0.008314 # universal gas constant
 
@@ -69,8 +70,8 @@ def dham(il, ix):
     u_data = u_data[:, equilibration_point:]
 
     # Determine the ideal discretization
-    #n_bins = autodis(u_data, uc, bk, temp, results_dir / 'Discretization.png')
-    n_bins=400
+    n_bins = autodis(u_data, uc, bk, temp, results_dir)
+    
     # Calculate umbrella sampling histograms
 
     # Extract minimum and maximum of the trajectories
@@ -101,6 +102,8 @@ def dham(il, ix):
 
     # Save histograms
     fig.savefig(results_dir / "Histograms.png", dpi=300)
+
+    lag = autolag(discretized_trajectory, bins, uc, bk, results_dir)
 
     return
 

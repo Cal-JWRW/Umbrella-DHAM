@@ -85,7 +85,29 @@ def autodis(u_data, uc, bk, temp, result_path):
     
     ax.legend()
 
-    fig.savefig(result_path, dpi=300)
+    plt.tight_layout()
+
+    fig.savefig(result_path / 'Discretization.png', dpi=300)
+
+    data = np.column_stack((n_bins, integrals))
+
+    data = data.astype(np.float64)
+
+    # === Prepare Header for Output File ===
+    full_header = '@    title "Markov Model Discretization optimization"' + '\n'
+    full_header += '@    xaxis  label "n Bins"' + '\n'
+    full_header += '@    yaxis  label "Area Under Free Energy"' + '\n'
+    full_header += '@    s0 legend "Area Under Free Energy" '
+
+    # === Save Results to File ===
+    np.savetxt(
+        result_path / "Discretization_Optimization.xvg",  # Output file path
+        data,                    # Transpose to get 2 columns: time, tilt
+        fmt="%.2f",                  # Format numbers to 2 decimal places
+        delimiter="\t",              # Tab-separated values
+        header=full_header,         # Header describing the file
+        comments=''                 # No comment character before header lines
+    )
 
     return ideal_discretization
     
