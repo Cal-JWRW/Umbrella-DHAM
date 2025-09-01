@@ -17,9 +17,11 @@ It is standard practice to discard an initial portion of umbrella sampling data 
 The tool works similarly to the GROMACS WHAM tool. From a directory containing the umbrella sampling pullx and log files, construct a mirrored list of log files stored in .dat files:
 
 ls -1v *.log > log.dat
+
 ls -1v * pullx * > px.dat
 
 Following this, the DHAM tool can be called from src/DHAM.py with:
+
 python /path/to/package/DHAM.py -il log.dat -ix px.dat
 
 # Limitations
